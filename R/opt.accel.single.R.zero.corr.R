@@ -99,10 +99,19 @@ opt.accel.single.R.zero.corr<-function (yy, method="L-BFGS-B", hess = FALSE, poo
 if (length(na.exclude(log.lik.tmp)) == iterations){
   break
 }
-  }
-  www<-www[!sapply(www,is.null)]
-    for (j in 1:iterations){
-      if(max(na.exclude(log.lik.tmp)) == www[[j]]$value) best.run<-www[[j]]
+    }
+    
+    # Need to remove entries in www in case there are iterations where the initial parameter estimates did not work.
+    www_tmp<-list()
+    for (i in 1:k){
+      if (is.character(www[[i]][1]) == FALSE) www_tmp[i]<-list(www[[i]])
+    }
+    
+    www_reduced<-www_tmp[!sapply(www_tmp,is.null)]
+    
+    
+    for (j in 1:length(www_reduced)){
+      if(max(na.exclude(log.lik.tmp)) == www_reduced[[j]]$value) best.run<-www_reduced[[j]]
     }
   }
 
@@ -125,15 +134,17 @@ if (length(na.exclude(log.lik.tmp)) == iterations){
                control = list(fnscale = -1, maxit=10000, trace = trace), method = "SANN" , hessian = hess, lower = lower.limit)
     }
 
-    if (w$convergence == 1) converge<-"Model did not converge"
-    if (w$convergence == 0) converge<-"Model converged successfully"
   }
 
   if (is.numeric(iterations) ==TRUE) {
   w<-best.run
   iter<-iterations
   }
-
+  
+  if (w$convergence == 10) converge<-"The search algorithm stopped as it did not make progress towards the optimal solution"
+  if (w$convergence == 0) converge<-"Model converged successfully"
+  if (w$convergence == 1) converge<-"The maximum number of iterations was reached and the search algorithm exited"
+  
   if (hess) {
     w$se <- sqrt(diag(-1 * solve(w$hessian)))
     SE.R1<-matrix(0, nrow=m, ncol=m)
