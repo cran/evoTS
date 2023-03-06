@@ -1,6 +1,6 @@
 Package: evoTS
 Title: Analyses of Evolutionary Time-Series
-Version: 1.0.1
+Version: 1.0.2
 Authors@R: 
     person(given = "Kjetil Lysne",
            family = "Voje",
@@ -19,7 +19,7 @@ Depends: R (>= 3.5.0)
 URL: https://klvoje.github.io/evoTS/index.html
 BugReports: https://github.com/klvoje/evoTS/issues
 NeedsCompilation: no
-Packaged: 2023-02-07 21:01:54 UTC; kjetillv
+Packaged: 2023-03-06 07:42:27 UTC; kjetillv
 Author: Kjetil Lysne Voje [aut, cre]
 Repository: CRAN
-Date/Publication: 2023-02-07 21:32:35 UTC
+Date/Publication: 2023-03-06 13:50:06 UTC
